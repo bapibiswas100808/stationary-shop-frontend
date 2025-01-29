@@ -1,22 +1,13 @@
-import { Grid, Layout, Menu, MenuProps } from "antd";
+import { Grid, Layout, Menu } from "antd";
+import { Outlet } from "react-router-dom";
+import { adminOptions } from "../../routes/admin.routes";
+// import { userOptions } from "../../routes/user.routes";
 
 const { Header, Content, Footer, Sider } = Layout;
-const items: MenuProps["items"] = [
-  { key: "1", label: "Dashboard" },
-  { key: "2", label: "User Management" },
-  {
-    key: "3",
-    label: "Product Management",
-    children: [
-      { key: "31", label: "All Products" },
-      { key: "32", label: "Create New Product" },
-    ],
-  },
-  { key: "4", label: "Order Management" },
-];
+
 const { useBreakpoint } = Grid;
 
-const MainLayout = () => {
+const DashboardLayout = () => {
   const screens = useBreakpoint();
   return (
     <Layout style={{ height: "100vh" }}>
@@ -51,7 +42,7 @@ const MainLayout = () => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={["4"]}
-          items={items}
+          items={adminOptions}
         />
       </Sider>
       <Layout>
@@ -63,7 +54,7 @@ const MainLayout = () => {
               minHeight: 360,
             }}
           >
-            the main content here
+            <Outlet />
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
@@ -74,4 +65,4 @@ const MainLayout = () => {
   );
 };
 
-export default MainLayout;
+export default DashboardLayout;

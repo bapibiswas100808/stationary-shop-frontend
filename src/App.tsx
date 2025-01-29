@@ -1,10 +1,10 @@
 import "./App.css";
-import MainLayout from "./components/layout/MainLayout";
+import DashboardLayout from "./components/layout/DashboardLayout";
 
 function App() {
   return (
     <>
-      <MainLayout />
+      <DashboardLayout />
     </>
   );
 }
