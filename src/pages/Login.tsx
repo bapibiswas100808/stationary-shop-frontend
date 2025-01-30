@@ -1,39 +1,53 @@
-import { Button } from "antd";
-import { useForm } from "react-hook-form";
+import { Button, Row } from "antd";
+import { FieldValues } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hook";
-import { setUser } from "../redux/features/auth/authSlice";
+import { setUser, TUser } from "../redux/features/auth/authSlice";
 import { verifyToken } from "../utils/verifyToken";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import ProjectForm from "../components/form/ProjectForm";
+import ProjectInput from "../components/form/ProjectInput";
 
 const Login = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { register, handleSubmit } = useForm();
 
-  const [login, { error }] = useLoginMutation();
-  // console.log("data=>", data);
-  console.log("error=>", error);
+  const defaultValues = {
+    email: "sumon@bapi.com",
+    password: "123456",
+  };
 
-  const onSubmit = async (data) => {
-    const userInfo = {
-      email: data.email,
-      password: data.password,
-    };
-    const res = await login(userInfo).unwrap();
-    const user = verifyToken(res.data.accessToken);
-    dispatch(setUser({ user: user, token: res.data.accessToken }));
+  const [login] = useLoginMutation();
+
+  const onSubmit = async (data: FieldValues) => {
+    const toastId = toast.loading("Logging in");
+    try {
+      const userInfo = {
+        email: data.email,
+        password: data.password,
+      };
+      const res = await login(userInfo).unwrap();
+      const user = verifyToken(res?.data?.accessToken) as TUser;
+      dispatch(setUser({ user: user, token: res?.data?.accessToken }));
+      toast.success("Logged in Succesfully", { id: toastId, duration: 2000 });
+      navigate(`/${user.role}/dashboard`);
+    } catch (error) {
+      toast.error(`${error}`, { id: toastId, duration: 2000 });
+    }
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="email">Email</label>
-        <input type="email" id="email" {...register("email")} />
-      </div>
-      <div>
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password" {...register("password")} />
-      </div>
-      <Button htmlType="submit">Login</Button>
-    </form>
+    <Row justify="center" align="middle" style={{ height: "100vh" }}>
+      <ProjectForm onSubmit={onSubmit} defaultValues={defaultValues}>
+        <div>
+          <ProjectInput type="email" name="email" label="Email" />
+        </div>
+        <div>
+          <ProjectInput type="password" name="password" label="Password" />
+        </div>
+        <Button htmlType="submit">Login</Button>
+      </ProjectForm>
+    </Row>
   );
 };
 

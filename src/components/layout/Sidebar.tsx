@@ -2,6 +2,8 @@ import { Grid, Menu, Layout } from "antd";
 import { adminPaths } from "../../routes/admin.routes";
 import { sidebarItemsGenerator } from "../../utils/sidebarItemsGenerator";
 import { userPaths } from "../../routes/user.routes";
+import { useAppSelector } from "../../redux/hook";
+import { TUser, useCurrentUser } from "../../redux/features/auth/authSlice";
 const { Sider } = Layout;
 
 const userRole = {
@@ -11,10 +13,10 @@ const userRole = {
 
 const { useBreakpoint } = Grid;
 const Sidebar = () => {
-  const role = "user";
+  const user = useAppSelector(useCurrentUser) as TUser;
   let sidebarItems;
 
-  switch (role) {
+  switch (user.role) {
     case userRole.ADMIN:
       sidebarItems = sidebarItemsGenerator(adminPaths, userRole.ADMIN);
       break;
