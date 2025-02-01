@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ReactNode } from "react";
+import { Form } from "antd";
+import { ReactNode, useEffect } from "react";
 import {
   FieldValues,
   FormProvider,
@@ -13,17 +14,33 @@ type TFormProp = {
 } & TFormConfig;
 type TFormConfig = {
   defaultValues?: Record<string, any>;
+  resolver?: any;
 };
 
-const ProjectForm = ({ onSubmit, children, defaultValues }: TFormProp) => {
+const ProjectForm = ({
+  onSubmit,
+  children,
+  defaultValues,
+  resolver,
+}: TFormProp) => {
   const formConfig: TFormConfig = {};
   if (defaultValues) {
     formConfig["defaultValues"] = defaultValues;
   }
+  if (resolver) {
+    formConfig["resolver"] = resolver;
+  }
   const methods = useForm(formConfig);
+  useEffect(() => {
+    if (defaultValues) {
+      methods.reset(defaultValues);
+    }
+  }, [defaultValues, methods]);
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>{children}</form>
+      <Form layout="vertical" onFinish={methods.handleSubmit(onSubmit)}>
+        {children}
+      </Form>
     </FormProvider>
   );
 };

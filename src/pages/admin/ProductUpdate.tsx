@@ -1,15 +1,14 @@
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { useParams } from "react-router-dom";
+import { useGetSingleProductQuery } from "../../redux/features/products/productApi";
 import ProjectForm from "../../components/form/ProjectForm";
 import ProjectInput from "../../components/form/ProjectInput";
-import { Button } from "antd";
 import ProjectSelect from "../../components/form/ProjectSelect";
-import { useCreateProductMutation } from "../../redux/features/products/productApi";
-import { toast } from "sonner";
+import { Button } from "antd";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-const CreateProduct = () => {
-  const [createProduct] = useCreateProductMutation();
+const ProductUpdate = () => {
   const options = [
     { value: true, label: "In Stock" },
     { value: false, label: "Stock out" },
@@ -21,24 +20,16 @@ const CreateProduct = () => {
     { value: "Educational", label: "Educational" },
     { value: "Technology", label: "Technology" },
   ];
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    try {
-      const toastId = toast.loading("Creating Product");
-      const res = await createProduct(data).unwrap();
-      if (res.error) {
-        toast.error(`${res.error.data.message}`);
-      } else {
-        toast.success("product created succesfully", {
-          id: toastId,
-          duration: 2000,
-        });
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      toast.error("someting went wrong");
-    }
-  };
+  const { productId } = useParams();
+  const { data } = useGetSingleProductQuery(productId);
 
+  const defaultValues = {
+    name: data?.name,
+    brand: data?.brand,
+    price: data?.price,
+    description: data?.description,
+    quantity: data?.quantity,
+  };
   const productSchema = z.object({
     name: z
       .string({ required_error: "Name field is required" })
@@ -54,32 +45,38 @@ const CreateProduct = () => {
     quantity: z
       .number({ required_error: "Quantity is required" })
       .min(1, "Quantity must be at least 1"),
-    inStock: z.boolean().default(true),
+    inStock: z
+      .boolean({ required_error: "Stock field is required" })
+      .default(true),
     isDeleted: z.boolean().default(false),
   });
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data);
+  };
   return (
     <div>
-      <h2 style={{ textAlign: "center", padding: "20px 0" }}>Create Product</h2>
-      <ProjectForm onSubmit={onSubmit} resolver={zodResolver(productSchema)}>
-        <ProjectInput type="text" name="name" label="Product Name" />
+      <h2>Update Product</h2>
+      <ProjectForm
+        onSubmit={onSubmit}
+        defaultValues={defaultValues}
+        resolver={zodResolver(productSchema)}
+      >
+        <ProjectInput type="text" name="name" label="Name" />
         <ProjectInput type="text" name="brand" label="Brand" />
         <ProjectInput type="number" name="price" label="Price" />
-        <ProjectSelect
-          label="Category"
-          name="category"
-          options={categoryOptions}
-        />
-        <ProjectInput
-          type="text"
-          name="description"
-          label="Product Description"
-        />
         <ProjectInput type="number" name="quantity" label="Quantity" />
-        <ProjectSelect label="Stock Status" name="inStock" options={options} />
-        <Button htmlType="submit">Create Product</Button>
+        <ProjectInput type="text" name="description" label="Description" />
+        <ProjectSelect options={options} name="inStock" label="Stock" />
+        <ProjectSelect
+          options={categoryOptions}
+          name="category"
+          label="Category"
+        />
+        <Button htmlType="submit">Update Product</Button>
       </ProjectForm>
     </div>
   );
 };
 
-export default CreateProduct;
+export default ProductUpdate;

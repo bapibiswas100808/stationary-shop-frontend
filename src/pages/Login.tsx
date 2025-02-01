@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Row } from "antd";
 import { FieldValues } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
@@ -33,7 +34,12 @@ const Login = () => {
       toast.success("Logged in Succesfully", { id: toastId, duration: 2000 });
       navigate(`/${user.role}/dashboard`);
     } catch (error) {
-      toast.error(`${error}`, { id: toastId, duration: 2000 });
+      const userInfo = {
+        email: data.email,
+        password: data.password,
+      };
+      const res = await login(userInfo).unwrap();
+      toast.error(`${res.message}`, { id: toastId, duration: 2000 });
     }
   };
   return (

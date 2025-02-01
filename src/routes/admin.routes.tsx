@@ -2,6 +2,7 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import AllProduct from "../pages/admin/AllProduct";
 import CreateProduct from "../pages/admin/CreateProduct";
 import OrderManagement from "../pages/admin/OrderManagement";
+import ProductUpdate from "../pages/admin/ProductUpdate";
 import UserManagement from "../pages/admin/UserManagement";
 
 export const adminPaths = [
@@ -19,6 +20,10 @@ export const adminPaths = [
     name: "Order Management",
     path: "orderManagement",
     element: <OrderManagement />,
+  },
+  {
+    path: "products/:productId",
+    element: <ProductUpdate />,
   },
   {
     name: "Product Management",
