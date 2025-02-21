@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { Button, Menu, Drawer } from "antd";
 import { Layout } from "antd";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { MenuOutlined } from "@ant-design/icons";
 
 const HeaderComponent = () => {
   const { Header } = Layout;
   const [visible, setVisible] = useState(false);
+  const location = useLocation();
+  console.log(location.pathname);
 
   const navOptions = [
-    { key: 1, label: "Home", path: "/" },
-    { key: 2, label: "All Products", path: "/allProducts" },
-    { key: 3, label: "About Us", path: "/about" },
-    { key: 4, label: "Dashboard", path: "/admin/dashboard" },
-    { key: 5, label: "Cart", path: "/" },
+    { key: "/", label: "Home", path: "/" },
+    { key: "/allProducts", label: "All Products", path: "/allProducts" },
+    { key: "/about", label: "About Us", path: "/about" },
+    { key: "/admin/dashboard", label: "Dashboard", path: "/admin/dashboard" },
+    { key: "/cart", label: "Cart", path: "/cart" },
   ];
 
   return (
@@ -31,14 +33,16 @@ const HeaderComponent = () => {
       }}
     >
       {/* Logo */}
-      <div className="text-[#222222] text-2xl font-bold">Elegant Shop</div>
+      <Link to="/">
+        <span className="text-[#222222] text-2xl font-bold">Elegant Shop</span>
+      </Link>
 
       {/* Desktop Menu */}
       <div className="hidden lg:flex">
         <Menu
           theme="light"
           mode="horizontal"
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={[location.pathname]}
           style={{ backgroundColor: "#f5f5f5" }}
         >
           {navOptions.map((item) => (
@@ -70,9 +74,9 @@ const HeaderComponent = () => {
         title="Menu"
         placement="right"
         onClose={() => setVisible(false)}
-        visible={visible}
+        open={visible}
       >
-        <Menu mode="vertical">
+        <Menu mode="vertical" selectedKeys={[location.pathname]}>
           {navOptions.map((item) => (
             <Menu.Item key={item.key}>
               <NavLink to={item.path} onClick={() => setVisible(false)}>

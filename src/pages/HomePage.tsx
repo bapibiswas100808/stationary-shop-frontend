@@ -6,6 +6,7 @@ import TestimonialSlider from "../components/ui/TestimonialSlider";
 import { TQueryParams } from "../types/globalResponse";
 import { useState } from "react";
 import { useGetAllProductsQuery } from "../redux/features/products/productApi";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const [params] = useState<TQueryParams[] | undefined>(undefined);
@@ -45,7 +46,9 @@ const HomePage = () => {
           ))}
         </div>
         <div className="flex justify-center" style={{ margin: "50px 0" }}>
-          <Button style={{ padding: "10px 20px" }}> See All Products</Button>
+          <Link to="/allProducts">
+            <Button style={{ padding: "10px 20px" }}> See All Products</Button>
+          </Link>
         </div>
       </div>
 
