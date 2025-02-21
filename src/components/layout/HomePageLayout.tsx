@@ -9,13 +9,8 @@ const HomePageLayout = () => {
     <>
       <Layout>
         <Header />
-        <Content style={{ padding: "0 48px" }}>
-          <div
-            style={{
-              padding: 24,
-              minHeight: 380,
-            }}
-          >
+        <Content>
+          <div>
             <Outlet />
           </div>
         </Content>

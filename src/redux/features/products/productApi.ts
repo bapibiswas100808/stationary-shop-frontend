@@ -8,6 +8,8 @@ type TProduct = {
   price: number;
   quantity: number;
   inStock: boolean;
+  image: string;
+  description: string;
 };
 
 const productApi = baseApi.injectEndpoints({

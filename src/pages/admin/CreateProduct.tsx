@@ -43,6 +43,9 @@ const CreateProduct = () => {
     name: z
       .string({ required_error: "Name field is required" })
       .min(1, "Name is required"),
+    image: z
+      .string({ required_error: "Image field is required" })
+      .min(1, "Name is required"),
     brand: z
       .string({ required_error: "Brand field is required" })
       .min(1, "Brand is required"),
@@ -62,6 +65,7 @@ const CreateProduct = () => {
       <h2 style={{ textAlign: "center", padding: "20px 0" }}>Create Product</h2>
       <ProjectForm onSubmit={onSubmit} resolver={zodResolver(productSchema)}>
         <ProjectInput type="text" name="name" label="Product Name" />
+        <ProjectInput type="text" name="image" label="Image Link" />
         <ProjectInput type="text" name="brand" label="Brand" />
         <ProjectInput type="number" name="price" label="Price" />
         <ProjectSelect
