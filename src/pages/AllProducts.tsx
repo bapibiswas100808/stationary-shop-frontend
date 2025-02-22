@@ -32,6 +32,7 @@ const AllProducts = () => {
               price={product.price}
               category={product.category}
               stock={product.inStock}
+              id={product._id}
               button="See Details"
             />
           ))}

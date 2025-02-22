@@ -1,4 +1,5 @@
 import { Card, Button } from "antd";
+import { Link } from "react-router-dom";
 
 const { Meta } = Card;
 
@@ -9,6 +10,7 @@ type TproductCard = {
   button: string;
   price: number;
   category: string;
+  id: string;
   stock: boolean;
 };
 
@@ -20,6 +22,7 @@ const ProductCard = ({
   price,
   category,
   stock,
+  id,
 }: TproductCard) => {
   return (
     <Card
@@ -77,9 +80,18 @@ const ProductCard = ({
       </div>
 
       <Meta title={title} description={description} />
-      <Button type="primary" style={{ marginTop: "20px" }}>
-        {button}
-      </Button>
+      <Link to={`/singleProduct/${id}`}>
+        <Button
+          style={{
+            marginTop: "20px",
+            backgroundColor: "green",
+            color: "white",
+            fontSize: "16px",
+          }}
+        >
+          {button}
+        </Button>
+      </Link>
     </Card>
   );
 };

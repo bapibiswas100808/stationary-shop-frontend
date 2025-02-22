@@ -16,7 +16,7 @@ const Banner = () => {
     <div className="h-[300px] md:h-[400px] lg:h-[80vh]" style={contentStyle}>
       <div className="flex justify-center items-center h-full gap-20">
         <div className="flex flex-col items-center justify-center lg:justify-start lg:items-start">
-          <span className="text-red-400 text-center text-lg">
+          <span className="text-green-700 text-center text-lg">
             Trending Products
           </span>
           <h3

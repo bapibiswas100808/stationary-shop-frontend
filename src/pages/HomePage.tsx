@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from "antd";
 import Banner from "../components/ui/Banner";
 import ProductCard from "../components/ui/ProductCard";
@@ -41,6 +40,7 @@ const HomePage = () => {
               price={product.price}
               category={product.category}
               stock={product.inStock}
+              id={product._id}
               button="See Details"
             />
           ))}

@@ -9,6 +9,8 @@ import Register from "../pages/Register";
 import { adminPaths } from "./admin.routes";
 import { userPaths } from "./user.routes";
 import { routeGenerator } from "../utils/routeGenerator";
+import SingleProduct from "../pages/SingleProduct";
+import CartPage from "../pages/CartPage";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,8 @@ const router = createBrowserRouter([
       { path: "/allProducts", element: <AllProducts /> },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
+      { path: "/singleProduct/:id", element: <SingleProduct /> },
+      { path: "/cart", element: <CartPage /> },
     ],
   },
 ]);
