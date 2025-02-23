@@ -84,9 +84,13 @@ const HeaderComponent = () => {
       </div>
 
       {/* Buttons */}
-      <div className="hidden lg:flex gap-3 items-center">
-        <Button>Register</Button>
-        <Button>Login</Button>
+      <div className="lg:flex gap-3 mt-5 hidden">
+        <Link to="/register">
+          <Button block>Register</Button>
+        </Link>
+        <Link to="/login">
+          <Button block>Login</Button>
+        </Link>
       </div>
 
       {/* Mobile Menu Button */}
@@ -115,8 +119,12 @@ const HeaderComponent = () => {
           ))}
         </Menu>
         <div className="flex flex-col gap-3 mt-5">
-          <Button block>Register</Button>
-          <Button block>Login</Button>
+          <Link to="/register">
+            <Button block>Register</Button>
+          </Link>
+          <Link to="/login">
+            <Button block>Login</Button>
+          </Link>
         </div>
       </Drawer>
     </Header>

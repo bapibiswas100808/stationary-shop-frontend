@@ -1,18 +1,9 @@
-import { TQueryParams, TResponseRedux } from "../../../types/globalResponse";
+import {
+  TCart,
+  TQueryParams,
+  TResponseRedux,
+} from "../../../types/globalResponse";
 import { baseApi } from "../../api/baseApi";
-type TCartItem = {
-  productId: string;
-  price: number;
-  quantity: number;
-  cartItems?: object[];
-};
-
-type TCart = {
-  _id: string;
-  email: string;
-  cart: TCartItem;
-  totalPrice: number;
-};
 
 const cartApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -39,6 +30,7 @@ const cartApi = baseApi.injectEndpoints({
           meta: response.meta,
         };
       },
+      providesTags: (result) => (result ? [{ type: "Cart", id: "LIST" }] : []),
     }),
     addToCart: builder.mutation({
       query: (cartInfo) => ({
@@ -46,6 +38,7 @@ const cartApi = baseApi.injectEndpoints({
         method: "POST",
         body: cartInfo,
       }),
+      invalidatesTags: [{ type: "Cart", id: "LIST" }],
     }),
   }),
 });

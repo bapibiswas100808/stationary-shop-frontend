@@ -84,9 +84,10 @@ const ProductCard = ({
         <Button
           style={{
             marginTop: "20px",
-            backgroundColor: "green",
-            color: "white",
-            fontSize: "16px",
+            // backgroundColor: "green",
+            color: "black",
+            fontSize: "14px",
+            fontWeight: "600",
           }}
         >
           {button}

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button, Row } from "antd";
+import { Button, Card, Col, Row } from "antd";
 import ProjectForm from "../components/form/ProjectForm";
 import ProjectInput from "../components/form/ProjectInput";
 import { FieldValues } from "react-hook-form";
@@ -45,15 +45,65 @@ const Register = () => {
   };
 
   return (
-    <Row justify="center" align="middle" style={{ height: "100vh" }}>
-      <ProjectForm onSubmit={onSubmit}>
-        <ProjectInput type="text" name="name" label="name" />
-        <ProjectInput type="email" name="email" label="Email" />
+    <Row
+      justify="center"
+      align="middle"
+      style={{
+        height: "90vh",
+        padding: "20px",
+        maxWidth: "800px",
+        margin: "0 auto",
+      }}
+    >
+      <Col xs={24} sm={22} md={18} lg={12}>
+        <Card
+          bordered={false}
+          style={{
+            padding: "30px",
+            borderRadius: "10px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          }}
+        >
+          <h2
+            style={{
+              textAlign: "center",
+              marginBottom: "20px",
+              fontSize: "30px",
+            }}
+          >
+            Register
+          </h2>
 
-        <ProjectInput type="password" name="password" label="Password" />
+          <ProjectForm onSubmit={onSubmit}>
+            {/* Name input */}
+            <ProjectInput type="text" name="name" label="Name" />
+            {/* Email input */}
+            <ProjectInput type="email" name="email" label="Email" />
+            {/* Password input */}
+            <ProjectInput type="password" name="password" label="Password" />
+            {/* Register Button */}
+            <Button
+              block
+              htmlType="submit"
+              style={{
+                backgroundColor: "green",
+                color: "white",
+                marginTop: "20px",
+                borderRadius: "5px",
+                height: "40px",
+              }}
+            >
+              Register
+            </Button>
+          </ProjectForm>
 
-        <Button htmlType="submit">Register</Button>
-      </ProjectForm>
+          <p
+            style={{ display: "block", textAlign: "center", marginTop: "15px" }}
+          >
+            Already have an account? <a href="/login">Login</a>
+          </p>
+        </Card>
+      </Col>
     </Row>
   );
 };

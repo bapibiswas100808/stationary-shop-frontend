@@ -29,3 +29,32 @@ export type TQueryParams = {
   name: string;
   value: boolean | React.Key;
 };
+
+export type TProduct = {
+  _id: string;
+  name: string;
+};
+
+export type TCartItem = {
+  productId: TProduct;
+  quantity: number;
+  price: number;
+  subTotal: number;
+  _id: string;
+  cartItems: TCartItem[];
+  totalPrice: number;
+};
+
+export type TUser = {
+  name: string;
+  email: string;
+  phone?: string;
+  address?: string;
+};
+
+export type TCart = {
+  user: TUser;
+  cartItems: TCartItem[];
+  totalPrice: number;
+  cart?: TCartItem;
+};
