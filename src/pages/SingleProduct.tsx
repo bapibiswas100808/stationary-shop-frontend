@@ -15,7 +15,11 @@ const SingleProduct = () => {
   const dispatch = useAppDispatch();
   const [addToCart] = useAddToCartMutation();
   const { id } = useParams();
-  const { data: productData, isLoading } = useGetSingleProductQuery(id);
+  const {
+    data: productData,
+    isLoading,
+    refetch,
+  } = useGetSingleProductQuery(id);
   const cartData = {
     quantity: count,
     productId: productData?.data?._id,
@@ -26,6 +30,8 @@ const SingleProduct = () => {
     try {
       const res = await addToCart(cartData).unwrap();
       dispatch(setCart(res));
+      refetch();
+      setCount(0);
       toast.success("Added to cart Succesfully", {
         id: toastId,
         duration: 2000,
@@ -84,7 +90,7 @@ const SingleProduct = () => {
             {productData?.data?.name}
           </h2>
           <h2 style={{ fontSize: "20px", fontWeight: "500" }}>
-            Brand:{" "}
+            Brand:
             <span
               style={{ fontSize: "18px", fontWeight: "500", color: "gray" }}
             >
@@ -97,7 +103,7 @@ const SingleProduct = () => {
                 fontSize: "13px",
                 padding: "3px 10px",
                 borderRadius: "15px",
-                color: `${productData?.data.inStock ? "white" : "red"}`,
+                color: `${productData?.data.inStock ? "white" : "yellow"}`,
                 backgroundColor: "green",
                 boxShadow: "initial",
                 fontWeight: "600",
@@ -114,7 +120,9 @@ const SingleProduct = () => {
                 fontSize: "13px",
                 padding: "3px 10px",
                 borderRadius: "15px",
-                color: `${productData?.data?.quantity > 0 ? "white" : "red"}`,
+                color: `${
+                  productData?.data?.quantity > 0 ? "white" : "yellow"
+                }`,
                 backgroundColor: "green",
                 boxShadow: "initial",
                 fontWeight: "600",
@@ -195,6 +203,10 @@ const SingleProduct = () => {
               </span>
               <button
                 onClick={() => setCount(count + 1)}
+                disabled={
+                  productData?.data?.quantity < 1 ||
+                  count > productData?.data.quantity
+                }
                 style={{
                   padding: "10px 15px",
                   background: "green",
@@ -229,20 +241,6 @@ const SingleProduct = () => {
               Add to cart
             </button>
           </div>
-          {/* <div style={{ display: "flex", gap: "30px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <FaRegHeart />
-              <span style={{ fontSize: "14px", textTransform: "uppercase" }}>
-                Add to Wishlist
-              </span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <GoShareAndroid />
-              <span style={{ fontSize: "14px", textTransform: "uppercase" }}>
-                Share
-              </span>
-            </div>
-          </div> */}
         </div>
       </div>
 
@@ -327,17 +325,6 @@ const SingleProduct = () => {
             </ol>
           </div>
         </div>
-
-        {/* <div style={{ marginTop: "30px" }}>
-          <h2
-            style={{ fontSize: "16px", fontWeight: "500", marginBottom: "5px" }}
-          >
-            Lining
-          </h2>
-          <p style={{ fontSize: "14px" }}>
-            100% Polyester, Main: 100% Polyester.
-          </p>
-        </div> */}
       </div>
     </div>
   );

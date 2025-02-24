@@ -1,10 +1,13 @@
 import { Card, Table, Typography, Spin, Button } from "antd";
 import { useGetAllCartsQuery } from "../redux/features/cart/cartApi";
 import { TCart, TCartItem, TProduct } from "../types/globalResponse";
+import { toast } from "sonner";
+import { useCreateOrderMutation } from "../redux/features/order/orderApi";
 
 const { Title, Text } = Typography;
 
 const CartPage = () => {
+  const [createOrder] = useCreateOrderMutation();
   const { data, isLoading } = useGetAllCartsQuery(undefined);
 
   if (isLoading) {
@@ -55,10 +58,25 @@ const CartPage = () => {
   ];
 
   // Handle Proceed to Payment
-  const handleProceedToPay = () => {
-    console.log("Proceeding to Payment...");
-    alert("Redirecting to Payment Page...");
-    // Navigate to payment page or perform an API call
+  const handleProceedToPay = async () => {
+    try {
+      const toastId = toast.loading("Processing Your Order");
+      const res = await createOrder({}).unwrap();
+      if (res.error) {
+        toast.error(`${res.error.data.message}`);
+      }
+      if (res.success) {
+        toast.success("Proceeding to Pay!", {
+          id: toastId,
+          duration: 2000,
+        });
+        const url = res?.data?.payment?.checkout_url;
+        window.location.href = url;
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      toast.error("someting went wrong");
+    }
   };
 
   return (
