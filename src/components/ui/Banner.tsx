@@ -21,7 +21,7 @@ const Banner = () => {
           </span>
           <h3
             className="text-xl md:text-5xl font-bold text-black text-center lg:text-left"
-            style={{ maxWidth: "700px", margin: "0 auto" }}
+            style={{ maxWidth: "700px", margin: "0 auto", padding: "0 10px" }}
           >
             Your One-Stop Shop for Everything You Need
           </h3>

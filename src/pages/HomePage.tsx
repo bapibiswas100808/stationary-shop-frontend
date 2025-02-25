@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, Spin } from "antd";
 import Banner from "../components/ui/Banner";
 import ProductCard from "../components/ui/ProductCard";
 import TestimonialSlider from "../components/ui/TestimonialSlider";
@@ -12,9 +12,20 @@ const HomePage = () => {
   const { data: productData, isLoading } = useGetAllProductsQuery(params);
 
   if (isLoading) {
-    return <p>Loading ...</p>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          width: "100%",
+        }}
+      >
+        <Spin size="large" tip="Loading..." />
+      </div>
+    );
   }
-
   return (
     <div>
       <Banner />

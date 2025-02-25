@@ -1,4 +1,4 @@
-import { Button, Table, TableColumnsType, TableProps } from "antd";
+import { Button, Spin, Table, TableColumnsType, TableProps } from "antd";
 import { useGetAllProductsQuery } from "../../redux/features/products/productApi";
 import { useState } from "react";
 import { TQueryParams } from "../../types/globalResponse";
@@ -133,8 +133,21 @@ const AllProduct = () => {
       setParams(queryParams);
     }
   };
+
   if (isLoading) {
-    return <p>Loading ...</p>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          width: "100%",
+        }}
+      >
+        <Spin size="large" tip="Loading..." />
+      </div>
+    );
   }
   return (
     <>
@@ -145,6 +158,7 @@ const AllProduct = () => {
         dataSource={tableData}
         onChange={onChange}
         showSorterTooltip={{ target: "sorter-icon" }}
+        scroll={{ x: "max-content", y: 400 }}
       />
     </>
   );

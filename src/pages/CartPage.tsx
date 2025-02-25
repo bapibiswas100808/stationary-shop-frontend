@@ -80,9 +80,19 @@ const CartPage = () => {
   };
 
   return (
-    <div style={{ maxWidth: 1280, margin: "20px auto", padding: 20 }}>
+    <div
+      className="flex flex-col lg:flex-row gap-5"
+      style={{
+        maxWidth: 1280,
+        margin: "20px auto",
+        padding: 20,
+      }}
+    >
       {/* User Details */}
-      <Card style={{ marginBottom: 20 }}>
+      <Card
+        className="w-full h-[300px] lg:w-[300px]"
+        style={{ marginBottom: 20 }}
+      >
         <Title level={3}>User Details</Title>
         <Text strong>Name:</Text> <Text>{user.name}</Text> <br />
         <Text strong>Email:</Text> <Text>{user.email}</Text> <br />
@@ -91,35 +101,35 @@ const CartPage = () => {
       </Card>
 
       {/* Cart Table */}
-      <Card style={{ overflow: "scroll" }}>
+      <Card className="flex-1 min-h-[80vh]" style={{ overflow: "scroll" }}>
         <Title level={3}>Shopping Cart</Title>
         <Table
           dataSource={cartItems.map((item) => ({ key: item._id, ...item }))}
           columns={columns}
           pagination={false}
         />
-      </Card>
-
-      {/* Total Price & Proceed to Pay */}
-      <div
-        style={{
-          marginTop: 20,
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <div>
-          <Title level={4}>Total Price: ${totalPrice.toFixed(2)}</Title>
-        </div>
-        <Button
-          style={{ backgroundColor: "green", color: "white" }}
-          size="large"
-          onClick={handleProceedToPay}
+        <div
+          style={{
+            marginTop: 20,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
         >
-          Order Now
-        </Button>
-      </div>
+          <div>
+            <h2 className="text-xl lg:text-2xl">
+              Total Price: ${totalPrice.toFixed(2)}
+            </h2>
+          </div>
+          <Button
+            style={{ backgroundColor: "green", color: "white" }}
+            size="large"
+            onClick={handleProceedToPay}
+          >
+            Order Now
+          </Button>
+        </div>
+      </Card>
     </div>
   );
 };

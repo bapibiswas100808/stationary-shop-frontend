@@ -10,7 +10,7 @@ const HomePageLayout = () => {
       <Layout>
         <Header />
         <Content>
-          <div>
+          <div className="min-h-screen">
             <Outlet />
           </div>
         </Content>

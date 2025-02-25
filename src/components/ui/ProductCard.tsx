@@ -26,6 +26,7 @@ const ProductCard = ({
 }: TproductCard) => {
   return (
     <Card
+      style={{ maxHeight: "480px", backgroundColor: "#Ffffff" }}
       hoverable
       cover={
         <img
@@ -40,7 +41,7 @@ const ProductCard = ({
           position: "absolute",
           top: "10px",
           left: "10px",
-          backgroundColor: "#FFB800",
+          backgroundColor: "#F5E6E0",
           padding: "5px 10px",
           borderRadius: "5px",
           color: "green",
@@ -79,7 +80,11 @@ const ProductCard = ({
         {stock ? <span>In Stock</span> : <span>Out of Stock</span>}
       </div>
 
-      <Meta title={title} description={description} />
+      <Meta
+        style={{ height: "122px" }}
+        title={title}
+        description={description}
+      />
       <Link to={`/singleProduct/${id}`}>
         <Button
           style={{

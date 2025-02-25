@@ -6,6 +6,8 @@ import { MenuOutlined } from "@ant-design/icons";
 import { CiShoppingCart } from "react-icons/ci";
 import { useGetAllCartsQuery } from "../../redux/features/cart/cartApi";
 import { TQueryParams } from "../../types/globalResponse";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { logOut, useCurrentToken } from "../../redux/features/auth/authSlice";
 
 const HeaderComponent = () => {
   const [params] = useState<TQueryParams[] | undefined>(undefined);
@@ -13,17 +15,28 @@ const HeaderComponent = () => {
   const [visible, setVisible] = useState(false);
   const location = useLocation();
   const { data: cartData, isLoading } = useGetAllCartsQuery(params);
+  const token = useAppSelector(useCurrentToken);
+  const dispatch = useAppDispatch();
 
   const navOptions = [
     { key: "/", label: "Home", path: "/" },
     { key: "/allProducts", label: "All Products", path: "/allProducts" },
     { key: "/about", label: "About Us", path: "/about" },
-    { key: "/admin/dashboard", label: "Dashboard", path: "/admin/dashboard" },
   ];
-
+  if (token) {
+    navOptions.push({
+      key: "/admin/dashboard",
+      label: "Dashboard",
+      path: "/admin/dashboard",
+    });
+  }
   if (isLoading) {
     return <p>Loading ...</p>;
   }
+
+  const handleLogOut = () => {
+    dispatch(logOut());
+  };
 
   return (
     <Header
@@ -41,7 +54,9 @@ const HeaderComponent = () => {
     >
       {/* Logo */}
       <Link to="/">
-        <span className="text-green-700 text-3xl font-bold">Elegant Shop</span>
+        <span className="text-green-700 text-2xl md:text-3xl font-bold">
+          Elegant Shop
+        </span>
       </Link>
 
       {/* Desktop Menu */}
@@ -84,14 +99,22 @@ const HeaderComponent = () => {
       </div>
 
       {/* Buttons */}
-      <div className="lg:flex gap-3 mt-5 hidden">
-        <Link to="/register">
-          <Button block>Register</Button>
-        </Link>
-        <Link to="/login">
-          <Button block>Login</Button>
-        </Link>
-      </div>
+      {!token ? (
+        <div className="lg:flex gap-3 mt-5 hidden">
+          <Link to="/register">
+            <Button block>Register</Button>
+          </Link>
+          <Link to="/login">
+            <Button block>Login</Button>
+          </Link>
+        </div>
+      ) : (
+        <div className="lg:flex gap-3 mt-5 hidden">
+          <Button onClick={handleLogOut} block>
+            Log Out
+          </Button>
+        </div>
+      )}
 
       {/* Mobile Menu Button */}
       <div className="lg:hidden">
@@ -118,14 +141,22 @@ const HeaderComponent = () => {
             </Menu.Item>
           ))}
         </Menu>
-        <div className="flex flex-col gap-3 mt-5">
-          <Link to="/register">
-            <Button block>Register</Button>
-          </Link>
-          <Link to="/login">
-            <Button block>Login</Button>
-          </Link>
-        </div>
+        {!token ? (
+          <div className="flex gap-3 mt-5">
+            <Link to="/register">
+              <Button block>Register</Button>
+            </Link>
+            <Link to="/login">
+              <Button block>Login</Button>
+            </Link>
+          </div>
+        ) : (
+          <div className="gap-3 mt-5">
+            <Button onClick={handleLogOut} block>
+              Log Out
+            </Button>
+          </div>
+        )}
       </Drawer>
     </Header>
   );

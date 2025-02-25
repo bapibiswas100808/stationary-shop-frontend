@@ -1,7 +1,7 @@
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import ProjectForm from "../../components/form/ProjectForm";
 import ProjectInput from "../../components/form/ProjectInput";
-import { Button } from "antd";
+import { Button, Col, Row } from "antd";
 import ProjectSelect from "../../components/form/ProjectSelect";
 import { useCreateProductMutation } from "../../redux/features/products/productApi";
 import { toast } from "sonner";
@@ -61,27 +61,65 @@ const CreateProduct = () => {
     isDeleted: z.boolean().default(false),
   });
   return (
-    <div>
-      <h2 style={{ textAlign: "center", padding: "20px 0" }}>Create Product</h2>
-      <ProjectForm onSubmit={onSubmit} resolver={zodResolver(productSchema)}>
-        <ProjectInput type="text" name="name" label="Product Name" />
-        <ProjectInput type="text" name="image" label="Image Link" />
-        <ProjectInput type="text" name="brand" label="Brand" />
-        <ProjectInput type="number" name="price" label="Price" />
-        <ProjectSelect
-          label="Category"
-          name="category"
-          options={categoryOptions}
-        />
-        <ProjectInput
-          type="text"
-          name="description"
-          label="Product Description"
-        />
-        <ProjectInput type="number" name="quantity" label="Quantity" />
-        <ProjectSelect label="Stock Status" name="inStock" options={options} />
-        <Button htmlType="submit">Create Product</Button>
-      </ProjectForm>
+    <div className="min-h-[85vh] flex items-center justify-center">
+      <div
+        className="max-w-full lg:max-w-xl bg-white"
+        style={{ margin: "0 auto", padding: "30px" }}
+      >
+        <h2
+          className="text-2xl"
+          style={{ textAlign: "center", padding: "20px 0" }}
+        >
+          Create Product
+        </h2>
+        <ProjectForm onSubmit={onSubmit} resolver={zodResolver(productSchema)}>
+          <Row gutter={10}>
+            {/* Use gutter for spacing between columns */}
+            {/* First row */}
+            <Col xs={24} sm={12}>
+              {/* 12/24 means half of the row */}
+              <ProjectInput type="text" name="name" label="Product Name" />
+            </Col>
+            <Col xs={24} sm={12}>
+              <ProjectInput type="text" name="image" label="Image Link" />
+            </Col>
+            {/* Second row */}
+            <Col xs={24} sm={12}>
+              <ProjectInput type="text" name="brand" label="Brand" />
+            </Col>
+            <Col xs={24} sm={12}>
+              <ProjectInput type="number" name="price" label="Price" />
+            </Col>
+            {/* Third row */}
+            <Col xs={24} sm={12}>
+              <ProjectSelect
+                label="Category"
+                name="category"
+                options={categoryOptions}
+              />
+            </Col>
+            <Col xs={24} sm={12}>
+              <ProjectInput
+                type="text"
+                name="description"
+                label="Product Description"
+              />
+            </Col>
+            {/* Fourth row */}
+            <Col xs={24} sm={12}>
+              <ProjectInput type="number" name="quantity" label="Quantity" />
+            </Col>
+            <Col xs={24} sm={12}>
+              <ProjectSelect
+                label="Stock Status"
+                name="inStock"
+                options={options}
+              />
+            </Col>
+          </Row>
+          <Button htmlType="submit">Create Product</Button>
+        </ProjectForm>
+      </div>
     </div>
   );
 };

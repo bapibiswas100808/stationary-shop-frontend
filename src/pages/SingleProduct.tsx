@@ -3,18 +3,22 @@ import { useState } from "react";
 
 // import { FaRegHeart } from "react-icons/fa";
 // import { GoShareAndroid } from "react-icons/go";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetSingleProductQuery } from "../redux/features/products/productApi";
-import { useAppDispatch } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { useAddToCartMutation } from "../redux/features/cart/cartApi";
 import { setCart } from "../redux/features/cart/cartSlice";
 import { toast } from "sonner";
+import { useCurrentToken } from "../redux/features/auth/authSlice";
 
 const SingleProduct = () => {
   const [count, setCount] = useState(0);
   const dispatch = useAppDispatch();
   const [addToCart] = useAddToCartMutation();
   const { id } = useParams();
+  const token = useAppSelector(useCurrentToken);
+  const navigate = useNavigate();
+
   const {
     data: productData,
     isLoading,
@@ -27,6 +31,14 @@ const SingleProduct = () => {
   };
   const addProductToCart = async () => {
     const toastId = toast.loading("Adding to Cart");
+    if (!token) {
+      toast.error(`Please Login to Add product in the cart!`, {
+        id: toastId,
+        duration: 2000,
+      });
+      navigate("/login");
+    }
+
     try {
       const res = await addToCart(cartData).unwrap();
       dispatch(setCart(res));

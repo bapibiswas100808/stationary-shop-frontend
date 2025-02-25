@@ -11,6 +11,7 @@ import { userPaths } from "./user.routes";
 import { routeGenerator } from "../utils/routeGenerator";
 import SingleProduct from "../pages/SingleProduct";
 import CartPage from "../pages/CartPage";
+import ProtectedRoute from "../components/layout/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -33,7 +34,14 @@ const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
       { path: "/singleProduct/:id", element: <SingleProduct /> },
-      { path: "/cart", element: <CartPage /> },
+      {
+        path: "/cart",
+        element: (
+          <ProtectedRoute>
+            <CartPage />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
 ]);
