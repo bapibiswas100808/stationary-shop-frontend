@@ -32,7 +32,7 @@ const Sidebar = () => {
   return (
     <Sider
       style={{
-        backgroundColor: "#006400",
+        backgroundColor: "#004225 ",
         position: isMobile ? "fixed" : "relative",
         zIndex: isMobile ? 100 : "auto",
         top: 0,
@@ -70,7 +70,7 @@ const Sidebar = () => {
         </div>
       </Link>
       <Menu
-        style={{ backgroundColor: "#006400" }}
+        style={{ backgroundColor: "#004225 " }}
         theme="dark"
         mode="inline"
         defaultSelectedKeys={["4"]}

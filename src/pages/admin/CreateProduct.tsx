@@ -117,7 +117,12 @@ const CreateProduct = () => {
               />
             </Col>
           </Row>
-          <Button htmlType="submit">Create Product</Button>
+          <Button
+            style={{ backgroundColor: "green", color: "white" }}
+            htmlType="submit"
+          >
+            Create Product
+          </Button>
         </ProjectForm>
       </div>
     </div>

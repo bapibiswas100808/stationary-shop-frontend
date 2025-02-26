@@ -1,6 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./features/auth/authSlice";
 import userReducer from "./features/user/userSlice";
+import cartReducer from "./features/cart/cartSlice";
+import orderReducer from "./features/order/orderSlice";
 import productReducer from "./features/products/productSlice";
 import { baseApi } from "./api/baseApi";
 import {
@@ -28,6 +30,8 @@ export const store = configureStore({
     auth: persistedAuthReducer,
     register: userReducer,
     product: productReducer,
+    cart: cartReducer,
+    order: orderReducer,
   },
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares({

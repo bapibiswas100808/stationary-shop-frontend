@@ -1,8 +1,12 @@
 import { Button, Spin, Table, TableColumnsType, TableProps } from "antd";
-import { useGetAllProductsQuery } from "../../redux/features/products/productApi";
-import { useState } from "react";
+import {
+  useDeleteProductMutation,
+  useGetAllProductsQuery,
+} from "../../redux/features/products/productApi";
+import { useEffect, useState } from "react";
 import { TQueryParams } from "../../types/globalResponse";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 export type TTableData = {
   name: string;
@@ -14,11 +18,18 @@ export type TTableData = {
 
 const AllProduct = () => {
   const [params, setParams] = useState<TQueryParams[] | undefined>(undefined);
+  const [deleteProduct] = useDeleteProductMutation();
   const {
     data: productData,
     isLoading,
     isFetching,
+    refetch,
   } = useGetAllProductsQuery(params);
+  console.log(productData);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   const tableData = productData?.data?.map(
     ({ _id, name, brand, category, price, quantity, inStock }) => ({
@@ -36,55 +47,15 @@ const AllProduct = () => {
       title: "Name",
       dataIndex: "name",
       showSorterTooltip: { target: "full-header" },
-      filters: [
-        {
-          text: "Joe",
-          value: "Joe",
-        },
-        {
-          text: "Jim",
-          value: "Jim",
-        },
-        {
-          text: "Submenu",
-          value: "Submenu",
-        },
-      ],
     },
     {
       title: "Brand",
       dataIndex: "brand",
-      // defaultSortOrder: "descend",
-      // sorter: (a, b) => a.age - b.age,
     },
     {
       title: "Category",
       dataIndex: "category",
       showSorterTooltip: { target: "full-header" },
-      filters: [
-        {
-          text: "Educational",
-          value: "Educational",
-        },
-        {
-          text: "Technology",
-          value: "Technology",
-        },
-        {
-          text: "Office Supplies",
-          value: "Office Supplies",
-        },
-        {
-          text: "Art Supplies",
-          value: "Art Supplies",
-        },
-        {
-          text: "Writing",
-          value: "Writing",
-        },
-      ],
-      // defaultSortOrder: "descend",
-      // sorter: (a, b) => a.age - b.age,
     },
     {
       title: "Price",
@@ -100,6 +71,11 @@ const AllProduct = () => {
       render: (inStock: boolean) => (inStock ? "In Stock" : "Out of Stock"),
     },
     {
+      title: "AVailability",
+      dataIndex: "isDeleted",
+      render: (isDeleted: boolean) => (isDeleted ? "Deleted" : "Existed"),
+    },
+    {
       title: "Action",
       render: (item) => {
         console.log(item);
@@ -110,7 +86,10 @@ const AllProduct = () => {
                 Update
               </Button>
             </Link>
-            <Button style={{ backgroundColor: "red", color: "white" }}>
+            <Button
+              onClick={() => handleDeleteProduct(item.key)}
+              style={{ backgroundColor: "red", color: "white" }}
+            >
               Delete
             </Button>
           </div>
@@ -134,6 +113,25 @@ const AllProduct = () => {
     }
   };
 
+  const handleDeleteProduct = async (id: string) => {
+    const toastId = toast.loading("Deleting Product");
+    try {
+      const response = await deleteProduct(id).unwrap();
+      console.log(response);
+      toast.success("product deleted succesfully", {
+        id: toastId,
+        duration: 2000,
+      });
+      refetch();
+    } catch (error) {
+      console.log(error);
+      toast.success("product created succesfully", {
+        id: toastId,
+        duration: 2000,
+      });
+    }
+  };
+
   if (isLoading) {
     return (
       <div
@@ -150,7 +148,7 @@ const AllProduct = () => {
     );
   }
   return (
-    <>
+    <div className="">
       <h2 style={{ textAlign: "center", padding: "20px 0" }}>All Products</h2>
       <Table<TTableData>
         loading={isFetching}
@@ -160,7 +158,7 @@ const AllProduct = () => {
         showSorterTooltip={{ target: "sorter-icon" }}
         scroll={{ x: "max-content", y: 400 }}
       />
-    </>
+    </div>
   );
 };
 

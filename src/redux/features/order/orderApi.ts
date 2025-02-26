@@ -31,7 +31,7 @@ const orderApi = baseApi.injectEndpoints({
         }
 
         return {
-          url: "/getAllOrder",
+          url: "/orders/getAllOrder",
           method: "GET",
           params: params,
         };
@@ -51,8 +51,8 @@ const orderApi = baseApi.injectEndpoints({
       }),
     }),
     getSingleOrder: builder.query({
-      query: (orderId) => ({
-        url: `/singleOrder/${orderId}`,
+      query: (email) => ({
+        url: `orders/singleOrder/${email}`,
         method: "GET",
       }),
     }),

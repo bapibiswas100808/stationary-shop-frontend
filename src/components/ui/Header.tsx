@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Menu, Drawer } from "antd";
+import { Button, Menu, Drawer, Spin } from "antd";
 import { Layout } from "antd";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { MenuOutlined } from "@ant-design/icons";
@@ -7,7 +7,11 @@ import { CiShoppingCart } from "react-icons/ci";
 import { useGetAllCartsQuery } from "../../redux/features/cart/cartApi";
 import { TQueryParams } from "../../types/globalResponse";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { logOut, useCurrentToken } from "../../redux/features/auth/authSlice";
+import {
+  logOut,
+  useCurrentToken,
+  useCurrentUser,
+} from "../../redux/features/auth/authSlice";
 
 const HeaderComponent = () => {
   const [params] = useState<TQueryParams[] | undefined>(undefined);
@@ -16,6 +20,7 @@ const HeaderComponent = () => {
   const location = useLocation();
   const { data: cartData, isLoading } = useGetAllCartsQuery(params);
   const token = useAppSelector(useCurrentToken);
+  const user = useAppSelector(useCurrentUser);
   const dispatch = useAppDispatch();
 
   const navOptions = [
@@ -27,11 +32,24 @@ const HeaderComponent = () => {
     navOptions.push({
       key: "/admin/dashboard",
       label: "Dashboard",
-      path: "/admin/dashboard",
+      path: `/${user?.role}/dashboard`,
     });
   }
+
   if (isLoading) {
-    return <p>Loading ...</p>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          width: "100%",
+        }}
+      >
+        <Spin size="large" tip="Loading..." />
+      </div>
+    );
   }
 
   const handleLogOut = () => {

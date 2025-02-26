@@ -27,7 +27,6 @@ const CartPage = () => {
     address: "N/A",
   };
   const cartItems: TCartItem[] = cartData?.cart?.cartItems || [];
-  console.log(cartData);
   const totalPrice: number = cartData?.cart?.totalPrice || 0;
 
   // Table columns
@@ -125,6 +124,7 @@ const CartPage = () => {
             style={{ backgroundColor: "green", color: "white" }}
             size="large"
             onClick={handleProceedToPay}
+            disabled={totalPrice <= 0}
           >
             Order Now
           </Button>

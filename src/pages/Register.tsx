@@ -25,7 +25,6 @@ const Register = () => {
       };
 
       const res = await register(userInfo);
-      console.log(res.data);
 
       if ("error" in res.data) {
         console.log("error happens");
@@ -49,7 +48,7 @@ const Register = () => {
       justify="center"
       align="middle"
       style={{
-        height: "90vh",
+        minHeight: "90vh",
         padding: "20px",
         maxWidth: "800px",
         margin: "0 auto",

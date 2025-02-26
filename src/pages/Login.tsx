@@ -42,7 +42,7 @@ const Login = () => {
       justify="center"
       align="middle"
       style={{
-        height: "90vh",
+        minHeight: "90vh",
         padding: "20px",
         maxWidth: "800px",
         margin: "0 auto",

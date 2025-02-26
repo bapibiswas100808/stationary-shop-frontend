@@ -11,12 +11,10 @@ const { useBreakpoint } = Grid;
 const DashboardLayout = () => {
   const dispatch = useAppDispatch();
   const screens = useBreakpoint();
-  console.log(screens);
   const isMobile = screens.xs;
   const handleLogOut = () => {
     dispatch(logOut());
   };
-  console.log(isMobile);
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sidebar />

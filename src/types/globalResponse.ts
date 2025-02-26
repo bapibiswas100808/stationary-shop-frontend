@@ -29,10 +29,17 @@ export type TQueryParams = {
   name: string;
   value: boolean | React.Key;
 };
-
-export type TProduct = {
+type TProduct = {
   _id: string;
   name: string;
+  brand: string;
+  category: string;
+  price: number;
+  quantity: number;
+  inStock: boolean;
+  image: string;
+  description: string;
+  isDeleted: boolean; // Add this property
 };
 
 export type TCartItem = {
