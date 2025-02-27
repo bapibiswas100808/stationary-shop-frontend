@@ -21,10 +21,7 @@ export const adminPaths = [
     path: "orderManagement",
     element: <OrderManagement />,
   },
-  {
-    path: "products/:productId",
-    element: <ProductUpdate />,
-  },
+
   {
     name: "Product Management",
     children: [
@@ -39,6 +36,10 @@ export const adminPaths = [
         element: <CreateProduct />,
       },
     ],
+  },
+  {
+    path: "products/:productId",
+    element: <ProductUpdate />,
   },
 ];
 

@@ -70,10 +70,10 @@ const Sidebar = () => {
         </div>
       </Link>
       <Menu
-        style={{ backgroundColor: "#004225 " }}
+        style={{ backgroundColor: "#004225" }}
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={["4"]}
+        defaultSelectedKeys={["1"]}
         items={sidebarItems}
       />
     </Sider>

@@ -29,7 +29,7 @@ export type TQueryParams = {
   name: string;
   value: boolean | React.Key;
 };
-type TProduct = {
+export type TProduct = {
   _id: string;
   name: string;
   brand: string;
@@ -39,7 +39,7 @@ type TProduct = {
   inStock: boolean;
   image: string;
   description: string;
-  isDeleted: boolean; // Add this property
+  isDeleted: boolean;
 };
 
 export type TCartItem = {
