@@ -12,6 +12,7 @@ import { routeGenerator } from "../utils/routeGenerator";
 import SingleProduct from "../pages/SingleProduct";
 import CartPage from "../pages/CartPage";
 import ProtectedRoute from "../components/layout/ProtectedRoute";
+import VerifyPayment from "../pages/VerifyPayment";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
       { path: "/singleProduct/:id", element: <SingleProduct /> },
+      { path: "/orders/verify", element: <VerifyPayment /> },
       {
         path: "/cart",
         element: (
