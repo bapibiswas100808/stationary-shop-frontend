@@ -21,7 +21,11 @@ type TAdress = {
 const UserDetails = () => {
   const user = useAppSelector(useCurrentUser);
   const email = user?.email;
-  const { data: userDetails, isLoading } = useGetSingleUserQuery(email);
+  const {
+    data: userDetails,
+    isLoading,
+    refetch,
+  } = useGetSingleUserQuery(email);
   const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation();
 
   const [form] = Form.useForm();
@@ -46,7 +50,7 @@ const UserDetails = () => {
     const userId = userDetails?.data?._id;
 
     if (!userId) {
-      console.error("🚨 Error: User ID is missing!");
+      console.error(" Error: User ID is missing!");
       return;
     }
 
@@ -60,6 +64,7 @@ const UserDetails = () => {
         id: toastId,
         duration: 2000,
       });
+      refetch();
       setIsEditing(false);
     } catch (error) {
       toast.error("Something went wrong", { id: toastId, duration: 2000 });

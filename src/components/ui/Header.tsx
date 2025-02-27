@@ -18,7 +18,7 @@ const HeaderComponent = () => {
   const { Header } = Layout;
   const [visible, setVisible] = useState(false);
   const location = useLocation();
-  const { data: cartData, isLoading } = useGetAllCartsQuery(params);
+  const { data: cartData, isLoading, refetch } = useGetAllCartsQuery(params);
   const token = useAppSelector(useCurrentToken);
   const user = useAppSelector(useCurrentUser);
   const dispatch = useAppDispatch();
@@ -54,6 +54,7 @@ const HeaderComponent = () => {
 
   const handleLogOut = () => {
     dispatch(logOut());
+    refetch();
   };
 
   return (

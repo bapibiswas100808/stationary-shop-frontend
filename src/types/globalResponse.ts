@@ -65,3 +65,25 @@ export type TCart = {
   totalPrice: number;
   cart?: TCartItem;
 };
+export type TOrder = {
+  _id: string;
+  email: string;
+  status: string;
+  product?:
+    | {
+        _id: string;
+        email: string;
+        cartItems: TCartItem[];
+        totalPrice: number;
+      }
+    | string
+    | null;
+  quantity: number;
+  totalPrice: number;
+  transaction: {
+    id: string;
+    transactionStatus: string;
+  };
+
+  isDeleted: boolean;
+};

@@ -1,8 +1,18 @@
-import { TQueryParams, TResponseRedux } from "../../../types/globalResponse";
+import {
+  TCartItem,
+  TQueryParams,
+  TResponseRedux,
+} from "../../../types/globalResponse";
 import { baseApi } from "../../api/baseApi";
 type TOrder = {
+  _id: string;
   email: string;
-  product: string | null; // ObjectId reference
+  product: {
+    _id: string;
+    email: string;
+    cartItems: TCartItem[];
+    totalPrice: number;
+  } | null;
   quantity: number;
   totalPrice: number;
   status: "pending" | "shipping" | "cancelled";
@@ -50,6 +60,18 @@ const orderApi = baseApi.injectEndpoints({
         method: "POST",
       }),
     }),
+    updateOrderStatus: builder.mutation({
+      query: (id) => ({
+        url: `/orders/changeStatus/${id}`,
+        method: "PUT",
+      }),
+    }),
+    deleteOrder: builder.mutation({
+      query: (id) => ({
+        url: `/orders/deleteOrder/${id}`,
+        method: "PUT",
+      }),
+    }),
     getSingleOrder: builder.query({
       query: (email) => ({
         url: `orders/singleOrder/${email}`,
@@ -62,4 +84,6 @@ export const {
   useGetAllOrdersQuery,
   useCreateOrderMutation,
   useGetSingleOrderQuery,
+  useUpdateOrderStatusMutation,
+  useDeleteOrderMutation,
 } = orderApi;

@@ -15,13 +15,26 @@ const userApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getAllUser: builder.query({
+      query: () => ({
+        url: `users/allUser`,
+        method: "GET",
+      }),
+    }),
     updateUser: builder.mutation({
       query: ({ id, updates }) => {
-        console.log("🔍 ID passed:", id); // This will help you verify that the ID is being passed correctly.
         return {
           url: `/users/updateAddress/${id}`,
           method: "PUT",
           body: updates,
+        };
+      },
+    }),
+    updateUserStatus: builder.mutation({
+      query: (email) => {
+        return {
+          url: `users/changeStatus/${email}`,
+          method: "POST",
         };
       },
     }),
@@ -32,4 +45,6 @@ export const {
   useRegisterMutation,
   useGetSingleUserQuery,
   useUpdateUserMutation,
+  useGetAllUserQuery,
+  useUpdateUserStatusMutation,
 } = userApi;
